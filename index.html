@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Goyal — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080f0c;
+  --bg2:#0d1a14;
+  --bg3:#111f18;
+  --surface:#162019;
+  --accent:#2ecc8a;
+  --accent2:#1a8a5c;
+  --accent3:#0d5c3a;
+  --gold:#c9a84c;
+  --gold2:#f0d080;
+  --text:#e8f2ed;
+  --text2:#8ab09a;
+  --text3:#4a6b58;
+  --line:rgba(46,204,138,0.15);
+  --card:rgba(22,32,25,0.8);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* Custom cursor */
+#cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--accent);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s,width 0.2s,height 0.2s,background 0.2s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:1px solid rgba(46,204,138,0.4);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.15s ease-out,width 0.3s,height 0.3s,border-color 0.3s;
+}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:18px;height:18px}
+body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:54px;height:54px;border-color:rgba(46,204,138,0.7)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:2px}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.2rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(8,15,12,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  transition:padding 0.3s;
+}
+nav.scrolled{padding:0.8rem 3rem}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:700;
+  color:var(--text);letter-spacing:1px;
+}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  font-size:12px;font-weight:500;
+  text-transform:uppercase;letter-spacing:2px;
+  color:var(--text2);text-decoration:none;
+  transition:color 0.2s;position:relative;
+  padding-bottom:3px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:1px;background:var(--accent);
+  transition:width 0.3s;
+}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  background:transparent;border:1px solid var(--accent);
+  color:var(--accent);padding:8px 20px;font-size:12px;
+  font-family:'Outfit',sans-serif;font-weight:500;
+  text-transform:uppercase;letter-spacing:2px;
+  cursor:none;transition:background 0.2s,color 0.2s;
+}
+.nav-cta:hover{background:var(--accent);color:var(--bg)}
+
+/* HERO */
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding-top:80px;
+}
+
+.hero-bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(46,204,138,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(46,204,138,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridDrift 20s linear infinite;
+}
+@keyframes gridDrift{0%{transform:translate(0,0)}100%{transform:translate(60px,60px)}}
+
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(46,204,138,0.08) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;
+  max-width:800px;padding:0 2rem;
+}
+
+.hero-eyebrow{
+  font-size:11px;font-weight:500;
+  text-transform:uppercase;letter-spacing:4px;
+  color:var(--accent);margin-bottom:1.5rem;
+  display:inline-flex;align-items:center;gap:10px;
+  animation:fadeUp 0.8s ease both;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';width:30px;height:1px;background:var(--accent);
+}
+
+.hero-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(56px,8vw,110px);
+  font-weight:700;line-height:0.95;
+  letter-spacing:-2px;
+  animation:fadeUp 0.8s ease 0.1s both;
+}
+.hero-name .first{color:var(--text)}
+.hero-name .last{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(46,204,138,0.6);
+  position:relative;
+}
+
+.hero-tagline{
+  font-size:clamp(14px,2vw,18px);
+  color:var(--text2);font-weight:300;
+  margin:1.5rem 0 2.5rem;
+  line-height:1.6;
+  animation:fadeUp 0.8s ease 0.2s both;
+}
+.hero-tagline strong{color:var(--accent);font-weight:500}
+
+.hero-badges{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:10px;
+  margin-bottom:3rem;
+  animation:fadeUp 0.8s ease 0.3s both;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(46,204,138,0.08);
+  border:1px solid rgba(46,204,138,0.2);
+  color:var(--text2);font-size:12px;
+  padding:6px 14px;border-radius:30px;
+  transition:background 0.2s,border-color 0.2s,color 0.2s;
+}
+.badge:hover{background:rgba(46,204,138,0.15);border-color:var(--accent);color:var(--accent)}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+.hero-cta{
+  display:flex;justify-content:center;gap:16px;flex-wrap:wrap;
+  animation:fadeUp 0.8s ease 0.4s both;
+}
+.btn-primary{
+  background:var(--accent);color:var(--bg);
+  padding:14px 36px;font-size:13px;font-weight:600;
+  text-transform:uppercase;letter-spacing:2px;
+  text-decoration:none;border:none;cursor:none;
+  transition:transform 0.2s,box-shadow 0.2s;
+  display:inline-block;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(46,204,138,0.3)}
+.btn-outline{
+  background:transparent;color:var(--text);
+  border:1px solid var(--text3);
+  padding:14px 36px;font-size:13px;font-weight:500;
+  text-transform:uppercase;letter-spacing:2px;
+  text-decoration:none;cursor:none;
+  transition:border-color 0.2s,color 0.2s;
+  display:inline-block;
+}
+.btn-outline:hover{border-color:var(--text);color:var(--text)}
+
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fadeIn 1s ease 1s both;
+}
+.hero-scroll span{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text3)}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollLine 2s ease-in-out infinite}
+@keyframes scrollLine{0%{height:0;opacity:1}100%{height:50px;opacity:0}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* SECTION COMMON */
+section{padding:8rem 0;position:relative}
+.container{max-width:1100px;margin:0 auto;padding:0 3rem}
+
+.section-label{
+  font-size:10px;font-weight:500;
+  text-transform:uppercase;letter-spacing:4px;
+  color:var(--accent);margin-bottom:0.5rem;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::before{content:'';width:20px;height:1px;background:var(--accent)}
+.section-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,56px);
+  font-weight:700;line-height:1;
+  margin-bottom:1rem;
+}
+
+/* STATS / NUMBERS */
+#stats{
+  padding:4rem 0;
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;
+}
+.stat-item{
+  text-align:center;padding:3rem 2rem;
+  position:relative;
+  transition:background 0.3s;
+}
+.stat-item:hover{background:rgba(46,204,138,0.05)}
+.stat-item+.stat-item::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;
+  width:1px;background:var(--line);
+}
+.stat-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:58px;font-weight:700;
+  color:var(--accent);line-height:1;
+  display:block;
+}
+.stat-label{
+  font-size:12px;font-weight:400;
+  color:var(--text2);text-transform:uppercase;
+  letter-spacing:2px;margin-top:8px;
+}
+
+/* ABOUT */
+#about{background:var(--bg)}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1.4fr;
+  gap:5rem;align-items:center;margin-top:4rem;
+}
+.about-visual{position:relative}
+.about-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  padding:2.5rem;position:relative;
+}
+.about-card::before{
+  content:'';position:absolute;
+  top:-8px;left:-8px;right:8px;bottom:8px;
+  border:1px solid rgba(46,204,138,0.2);
+  z-index:-1;
+}
+.about-avatar{
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent3),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-weight:700;color:white;
+  margin-bottom:1.5rem;
+  border:2px solid rgba(46,204,138,0.3);
+}
+.about-card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;color:var(--text);
+  margin-bottom:4px;
+}
+.about-card-role{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:1.5rem}
+.about-card-details{display:flex;flex-direction:column;gap:8px}
+.detail-row{display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.detail-row:last-child{border:none}
+.detail-key{color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.detail-val{color:var(--text2)}
+
+.about-text-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:700;
+  line-height:1.1;margin-bottom:1.5rem;
+}
+.about-text-heading em{color:var(--accent);font-style:italic}
+.about-desc{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:2rem}
+.trait-pills{display:flex;flex-wrap:wrap;gap:8px}
+.trait{
+  font-size:12px;color:var(--text2);
+  background:rgba(46,204,138,0.06);
+  border:1px solid rgba(46,204,138,0.15);
+  padding:5px 14px;border-radius:3px;
+  transition:all 0.2s;
+}
+.trait:hover{background:rgba(46,204,138,0.12);color:var(--accent)}
+
+/* ACHIEVEMENT */
+#achievement{background:var(--bg2)}
+.achievement-showcase{
+  margin-top:4rem;
+  background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.03));
+  border:1px solid rgba(201,168,76,0.25);
+  padding:3.5rem;display:flex;align-items:center;gap:3rem;
+  position:relative;overflow:hidden;
+}
+.achievement-showcase::before{
+  content:'"';
+  position:absolute;right:2rem;top:-1rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:180px;color:rgba(201,168,76,0.06);
+  line-height:1;pointer-events:none;
+}
+.trophy-big{
+  font-size:70px;flex-shrink:0;
+  animation:trophyFloat 3s ease-in-out infinite;
+}
+@keyframes trophyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.achievement-text h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:700;
+  color:var(--gold2);margin-bottom:8px;
+}
+.achievement-text p{font-size:15px;color:var(--text2);line-height:1.7;max-width:500px}
+.achievement-badges{display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap}
+.a-badge{
+  font-size:12px;
+  background:rgba(201,168,76,0.12);
+  border:1px solid rgba(201,168,76,0.3);
+  color:#d4aa60;padding:5px 14px;border-radius:3px;
+}
+
+/* PROJECTS */
+#projects{background:var(--bg)}
+.projects-tabs{
+  display:flex;gap:0;margin:3rem 0 2rem;
+  border-bottom:1px solid var(--line);
+}
+.tab-btn{
+  background:none;border:none;
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:500;
+  color:var(--text3);
+  padding:12px 24px;cursor:none;
+  text-transform:uppercase;letter-spacing:1.5px;
+  position:relative;transition:color 0.2s;
+}
+.tab-btn.active,.tab-btn:hover{color:var(--accent)}
+.tab-btn::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;
+  height:2px;background:var(--accent);
+  transform:scaleX(0);transition:transform 0.3s;
+}
+.tab-btn.active::after{transform:scaleX(1)}
+.tab-panel{display:none}
+.tab-panel.active{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:var(--line)}
+.project-card{
+  background:var(--bg);
+  padding:2.5rem 2rem;
+  transition:background 0.3s;
+  position:relative;overflow:hidden;
+}
+.project-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s;
+}
+.project-card:hover{background:var(--bg2)}
+.project-card:hover::before{transform:scaleX(1)}
+.project-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:700;
+  color:rgba(46,204,138,0.1);
+  line-height:1;margin-bottom:1rem;
+}
+.project-tag{
+  font-size:10px;text-transform:uppercase;letter-spacing:2px;
+  color:var(--accent);margin-bottom:10px;
+}
+.project-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:600;
+  color:var(--text);margin-bottom:12px;line-height:1.2;
+}
+.project-desc{font-size:13px;color:var(--text2);line-height:1.7}
+.project-ul{list-style:none;margin-top:1rem}
+.project-ul li{
+  font-size:12.5px;color:var(--text2);
+  line-height:1.6;padding:5px 0;
+  padding-left:16px;position:relative;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.project-ul li:last-child{border:none}
+.project-ul li::before{
+  content:'→';position:absolute;left:0;
+  color:var(--accent);font-size:10px;top:6px;
+}
+
+/* POSITIONS */
+#positions{background:var(--bg2)}
+.timeline{margin-top:4rem;position:relative}
+.timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:1px;background:linear-gradient(to bottom,var(--accent),transparent);
+}
+.timeline-item{
+  padding-left:3rem;padding-bottom:3rem;position:relative;
+}
+.timeline-item::before{
+  content:'';position:absolute;left:-5px;top:6px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 4px rgba(46,204,138,0.15);
+  transition:box-shadow 0.3s;
+}
+.timeline-item:hover::before{box-shadow:0 0 0 8px rgba(46,204,138,0.1)}
+.timeline-year{
+  font-size:10px;text-transform:uppercase;letter-spacing:2px;
+  color:var(--accent);margin-bottom:6px;
+}
+.timeline-role{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:600;
+  color:var(--text);margin-bottom:4px;
+}
+.timeline-org{font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:10px}
+.timeline-bullets{list-style:none}
+.timeline-bullets li{
+  font-size:13px;color:var(--text2);
+  line-height:1.6;padding:3px 0 3px 16px;
+  position:relative;
+}
+.timeline-bullets li::before{content:'·';position:absolute;left:4px;color:var(--text3)}
+
+.positions-grid-minor{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--line);margin-top:2rem;
+}
+.minor-card{
+  background:var(--bg2);padding:1.5rem;
+  transition:background 0.3s;
+}
+.minor-card:hover{background:var(--surface)}
+.minor-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.minor-org{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.minor-desc{font-size:12px;color:var(--text3);line-height:1.5}
+
+/* SKILLS */
+#skills{background:var(--bg)}
+.skills-container{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;margin-top:4rem}
+.skill-category+.skill-category{margin-top:2rem}
+.skill-cat-name{
+  font-size:10px;text-transform:uppercase;letter-spacing:2.5px;
+  color:var(--text3);margin-bottom:1rem;font-weight:500;
+}
+.skill-row{margin-bottom:14px}
+.skill-row-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.skill-name{font-size:13px;color:var(--text2)}
+.skill-pct{font-size:11px;color:var(--accent)}
+.skill-bar{height:2px;background:rgba(46,204,138,0.1);border-radius:1px;overflow:hidden}
+.skill-fill{
+  height:100%;background:linear-gradient(to right,var(--accent2),var(--accent));
+  border-radius:1px;width:0;
+  transition:width 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+
+.tools-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+}
+.tool-pill{
+  display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--line);
+  padding:12px 14px;
+  transition:border-color 0.2s,background 0.2s;
+}
+.tool-pill:hover{border-color:rgba(46,204,138,0.4);background:rgba(46,204,138,0.05)}
+.tool-icon{
+  width:32px;height:32px;
+  background:rgba(46,204,138,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.tool-info .tool-name{font-size:13px;color:var(--text);font-weight:500}
+.tool-info .tool-type{font-size:11px;color:var(--text3)}
+
+/* CONTACT */
+#contact{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem}
+.contact-intro{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:2rem}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;
+  border:1px solid var(--line);
+  text-decoration:none;
+  color:var(--text2);font-size:13px;
+  transition:border-color 0.2s,background 0.2s,color 0.2s;
+}
+.contact-link:hover{border-color:var(--accent);background:rgba(46,204,138,0.05);color:var(--text)}
+.contact-link-icon{
+  width:36px;height:36px;
+  background:rgba(46,204,138,0.1);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.contact-link-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);display:block;margin-bottom:2px}
+
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.form-group label{
+  display:block;font-size:11px;
+  text-transform:uppercase;letter-spacing:2px;
+  color:var(--text3);margin-bottom:6px;
+}
+.form-group input,
+.form-group textarea{
+  width:100%;background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--text);font-family:'Outfit',sans-serif;
+  font-size:14px;padding:12px 16px;
+  outline:none;transition:border-color 0.2s;
+  resize:none;
+}
+.form-group input:focus,
+.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{height:100px}
+.form-submit{
+  background:var(--accent);color:var(--bg);
+  border:none;padding:14px 32px;
+  font-family:'Outfit',sans-serif;font-size:13px;
+  font-weight:600;text-transform:uppercase;letter-spacing:2px;
+  cursor:none;width:100%;
+  transition:opacity 0.2s,transform 0.2s;
+}
+.form-submit:hover{opacity:0.85;transform:translateY(-1px)}
+.form-success{
+  display:none;text-align:center;
+  padding:2rem;background:rgba(46,204,138,0.08);
+  border:1px solid rgba(46,204,138,0.3);
+  color:var(--accent);font-size:15px;
+}
+
+/* FOOTER */
+footer{
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  padding:2rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:600;color:var(--text2);
+}
+.footer-copy{font-size:11px;color:var(--text3);letter-spacing:1px}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* FLOATING PARTICLES */
+.particle{
+  position:fixed;border-radius:50%;pointer-events:none;
+  background:var(--accent);opacity:0;
+  animation:particleFloat 8s infinite;
+}
+@keyframes particleFloat{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  10%{opacity:0.15}
+  90%{opacity:0.05}
+  100%{opacity:0;transform:translateY(-10vh) scale(1)}
+}
+
+/* MOBILE NAV TOGGLE */
+.nav-toggle{display:none;background:none;border:none;color:var(--text);cursor:none;font-size:20px}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .nav-toggle{display:block}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid,.contact-grid,.skills-container{grid-template-columns:1fr}
+  .projects-tab-panel.active,.tab-panel.active{grid-template-columns:1fr}
+  .positions-grid-minor{grid-template-columns:1fr}
+  .hero-cta{flex-direction:column;align-items:center}
+  nav{padding:1rem 1.5rem}
+  .container{padding:0 1.5rem}
+  section{padding:5rem 0}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- PARTICLES -->
+<div class="particle" style="width:3px;height:3px;left:10%;animation-delay:0s;animation-duration:12s"></div>
+<div class="particle" style="width:2px;height:2px;left:25%;animation-delay:2s;animation-duration:10s"></div>
+<div class="particle" style="width:4px;height:4px;left:60%;animation-delay:4s;animation-duration:14s"></div>
+<div class="particle" style="width:2px;height:2px;left:80%;animation-delay:1s;animation-duration:9s"></div>
+<div class="particle" style="width:3px;height:3px;left:45%;animation-delay:6s;animation-duration:11s"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">AG<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#positions">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire Me</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">B.Tech Student · KIIT University · 2024–2028</div>
+    <h1 class="hero-name">
+      <div class="first">Aditya</div>
+      <div class="last">Goyal</div>
+    </h1>
+    <p class="hero-tagline">
+      Business-driven strategist. <strong>2× MUN Champion.</strong><br>
+      Bridging diplomacy, technology & leadership.
+    </p>
+    <div class="hero-badges">
+      <span class="badge"><span class="dot"></span>Negotiation & Diplomacy</span>
+      <span class="badge"><span class="dot"></span>Event Management</span>
+      <span class="badge"><span class="dot"></span>Corporate Relations</span>
+      <span class="badge"><span class="dot"></span>Public Speaking</span>
+      <span class="badge"><span class="dot"></span>Java & C</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#projects" class="btn-outline">View Work</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="2">0</span>
+        <span class="stat-label">MUN Wins</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <span class="stat-number" data-target="4">0</span>
+        <span class="stat-label">Leadership Roles</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <span class="stat-number" data-target="3">0</span>
+        <span class="stat-label">Projects Built</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <span class="stat-number" data-target="6">0</span>
+        <span class="stat-label">Organisations</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-card">
+          <div class="about-avatar">AG</div>
+          <div class="about-card-name">Aditya Goyal</div>
+          <div class="about-card-role">Business Strategy · MUN Champion · Developer</div>
+          <div class="about-card-details">
+            <div class="detail-row">
+              <span class="detail-key">University</span>
+              <span class="detail-val">KIIT University</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Programme</span>
+              <span class="detail-val">B.Tech (2024–2028)</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Location</span>
+              <span class="detail-val">Bhubaneswar, India</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Email</span>
+              <span class="detail-val">goyaladitya2413@gmail.com</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Phone</span>
+              <span class="detail-val">9931060136</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Status</span>
+              <span class="detail-val" style="color:var(--accent)">● Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="section-label">Who I Am</div>
+        <h2 class="about-text-heading">A strategist who <em>thinks</em> in systems, speaks to rooms, and <em>leads</em> teams.</h2>
+        <p class="about-desc">Business-driven undergraduate at KIIT University with proven success in Model United Nations, event leadership, and corporate relations. I combine strong analytical thinking with the ability to communicate, negotiate, and execute — whether in boardrooms, debate halls, or code editors.</p>
+        <p class="about-desc">My experience ranges from structuring entire academic committees to securing event sponsorships, from drafting UN resolutions to building Java applications. I thrive in high-pressure environments and believe in learning by doing.</p>
+        <div class="trait-pills">
+          <span class="trait">Quick Learner</span>
+          <span class="trait">Adaptable</span>
+          <span class="trait">Strategic Thinker</span>
+          <span class="trait">Natural Communicator</span>
+          <span class="trait">Detail-Oriented</span>
+          <span class="trait">Team Coordinator</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENT -->
+<section id="achievement" style="padding:5rem 0">
+  <div class="container">
+    <div class="achievement-showcase reveal">
+      <div class="trophy-big">🏆</div>
+      <div class="achievement-text">
+        <h3>2× Model United Nations Champion</h3>
+        <p>Competed against delegates from top Indian universities and won at both IIT Bhubaneswar and Jadavpur University — recognized for structured diplomacy, creative negotiation, and the ability to build consensus under pressure.</p>
+        <div class="achievement-badges">
+          <span class="a-badge">IIT Bhubaneswar MUN</span>
+          <span class="a-badge">Jadavpur University MUN</span>
+          <span class="a-badge">Best Delegate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">What I've Built</div>
+      <h2 class="section-heading">Projects</h2>
+    </div>
+    <div class="projects-tabs reveal">
+      <button class="tab-btn active" data-tab="all">All Projects</button>
+      <button class="tab-btn" data-tab="strategy">Strategy</button>
+      <button class="tab-btn" data-tab="tech">Tech</button>
+    </div>
+    <div id="tab-all" class="tab-panel active">
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <div class="project-tag">Strategy · Diplomacy</div>
+        <div class="project-title">MUN Strategy & Research Framework</div>
+        <ul class="project-ul">
+          <li>Developed structured approaches for analyzing agendas and building position papers</li>
+          <li>Integrated economic, political, and strategic perspectives into debate preparation</li>
+          <li>Strengthened negotiation and decision-making frameworks through systematic research</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <div class="project-tag">Business · Finance</div>
+        <div class="project-title">Event Budgeting & Sponsorship Model</div>
+        <ul class="project-ul">
+          <li>Created a framework for budgeting, cost allocation, and sponsorship planning</li>
+          <li>Designed sponsor pitch approaches focusing on brand visibility and audience alignment</li>
+          <li>Applied in real event environments — MUN & SDIS 2026</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <div class="project-tag">Development · Java</div>
+        <div class="project-title">Task Manager Application</div>
+        <ul class="project-ul">
+          <li>Built a console-based Java application to manage tasks and deadlines</li>
+          <li>Implemented prioritization logic and structured workflow tracking</li>
+          <li>Strengthened fundamentals of OOP and problem-solving</li>
+        </ul>
+      </div>
+    </div>
+    <div id="tab-strategy" class="tab-panel">
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <div class="project-tag">Strategy · Diplomacy</div>
+        <div class="project-title">MUN Strategy & Research Framework</div>
+        <ul class="project-ul">
+          <li>Developed structured approaches for analyzing agendas and building position papers</li>
+          <li>Integrated economic, political, and strategic perspectives into debate preparation</li>
+          <li>Strengthened negotiation and decision-making frameworks</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <div class="project-tag">Business · Finance</div>
+        <div class="project-title">Event Budgeting & Sponsorship Model</div>
+        <ul class="project-ul">
+          <li>Created a framework for budgeting, cost allocation, and sponsorship planning</li>
+          <li>Designed sponsor pitch approaches focusing on brand visibility</li>
+          <li>Applied in real environments — MUN & SDIS 2026</li>
+        </ul>
+      </div>
+    </div>
+    <div id="tab-tech" class="tab-panel">
+      <div class="project-card" style="grid-column:1">
+        <div class="project-num">01</div>
+        <div class="project-tag">Development · Java</div>
+        <div class="project-title">Task Manager Application</div>
+        <ul class="project-ul">
+          <li>Built a console-based Java application to manage tasks and deadlines</li>
+          <li>Implemented prioritization logic and structured workflow tracking</li>
+          <li>Strengthened fundamentals of OOP and problem-solving</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONS -->
+<section id="positions">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Leadership & Experience</div>
+      <h2 class="section-heading">Positions of Responsibility</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-role">Corporate Relations Officer</div>
+        <div class="timeline-org">SDIS 2026</div>
+        <ul class="timeline-bullets">
+          <li>Managed sponsorship outreach and external partnerships end-to-end</li>
+          <li>Aligned event value propositions with sponsor expectations and brand goals</li>
+          <li>Developed pitch decks and negotiated partnership terms</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-role">Academics Officer</div>
+        <div class="timeline-org">KIIT MUN 2025</div>
+        <ul class="timeline-bullets">
+          <li>Led academic structuring of all committees and mentored delegates</li>
+          <li>Ensured quality of debate and maintained research & argumentation standards</li>
+          <li>Designed research guides and preparation frameworks for participants</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-year">Ongoing</div>
+        <div class="timeline-role">Core Member</div>
+        <div class="timeline-org">MUN Society, KIIT</div>
+        <ul class="timeline-bullets">
+          <li>Contributed to organizing conferences and training new delegates</li>
+          <li>Assisted in execution of large-scale inter-university events</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-year">Ongoing</div>
+        <div class="timeline-role">Event Management Team</div>
+        <div class="timeline-org">Youth Red Cross (YRC)</div>
+        <ul class="timeline-bullets">
+          <li>Organized campus events and social awareness initiatives</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-year">Ongoing</div>
+        <div class="timeline-role">Nukkad Natak Member</div>
+        <div class="timeline-org">Youth Red Cross (YRC)</div>
+        <ul class="timeline-bullets">
+          <li>Participated in street plays promoting social awareness and community causes</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-year">Ongoing</div>
+        <div class="timeline-role">Actor</div>
+        <div class="timeline-org">KIIT Film Society (KFS)</div>
+        <ul class="timeline-bullets">
+          <li>Worked on acting projects requiring creativity, expression, and teamwork</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">What I Bring</div>
+      <h2 class="section-heading">Skills & Tools</h2>
+    </div>
+    <div class="skills-container">
+      <div class="reveal">
+        <div class="skill-category">
+          <div class="skill-cat-name">Professional Skills</div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Public Speaking & Communication</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Negotiation & Persuasion</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Leadership & Team Coordination</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Event Management & Execution</span><span class="skill-pct">82%</span></div><div class="skill-bar"><div class="skill-fill" data-width="82"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Research & Analytical Thinking</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="80"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Business Strategy</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill" data-width="75"></div></div></div>
+        </div>
+        <div class="skill-category" style="margin-top:2rem">
+          <div class="skill-cat-name">Technical Skills</div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Java Programming</span><span class="skill-pct">65%</span></div><div class="skill-bar"><div class="skill-fill" data-width="65"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-name">C Programming</span><span class="skill-pct">60%</span></div><div class="skill-bar"><div class="skill-fill" data-width="60"></div></div></div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="skill-cat-name" style="margin-bottom:1rem">Tools & Software</div>
+        <div class="tools-grid">
+          <div class="tool-pill">
+            <div class="tool-icon">📊</div>
+            <div class="tool-info">
+              <div class="tool-name">MS Excel</div>
+              <div class="tool-type">Data & Analysis</div>
+            </div>
+          </div>
+          <div class="tool-pill">
+            <div class="tool-icon">📝</div>
+            <div class="tool-info">
+              <div class="tool-name">PowerPoint</div>
+              <div class="tool-type">Presentations</div>
+            </div>
+          </div>
+          <div class="tool-pill">
+            <div class="tool-icon">📄</div>
+            <div class="tool-info">
+              <div class="tool-name">MS Word</div>
+              <div class="tool-type">Documentation</div>
+            </div>
+          </div>
+          <div class="tool-pill">
+            <div class="tool-icon">☕</div>
+            <div class="tool-info">
+              <div class="tool-name">Java</div>
+              <div class="tool-type">Programming</div>
+            </div>
+          </div>
+          <div class="tool-pill">
+            <div class="tool-icon">⚙️</div>
+            <div class="tool-info">
+              <div class="tool-name">C Language</div>
+              <div class="tool-type">Programming</div>
+            </div>
+          </div>
+          <div class="tool-pill">
+            <div class="tool-icon">🌐</div>
+            <div class="tool-info">
+              <div class="tool-name">LinkedIn</div>
+              <div class="tool-type">Networking</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:2.5rem">
+          <div class="skill-cat-name" style="margin-bottom:1rem">Interests</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="trait">International Relations</span>
+            <span class="trait">Business Strategy</span>
+            <span class="trait">Global Affairs</span>
+            <span class="trait">Technology & Systems</span>
+            <span class="trait">Film Analysis</span>
+            <span class="trait">Swimming</span>
+            <span class="trait">Acting</span>
+            <span class="trait">Cooking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Let's Connect</div>
+      <h2 class="section-heading">Get In Touch</h2>
+      <p style="font-size:15px;color:var(--text2);margin-top:1rem;max-width:500px">Open to internships, collaborations, MUN events, and conversations about business, strategy, or tech.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="contact-intro">Whether you're looking for a passionate team player, a sharp negotiator, or someone who can bridge business and technology — I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="tel:9931060136" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.5 1.18C.5.56 1 .07 1.62.07h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L5.8 7.77a16 16 0 006.39 6.39l1.06-1.06a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <span class="contact-link-label">Phone</span>
+              9931060136
+            </div>
+          </a>
+          <a href="mailto:goyaladitya2413@gmail.com" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <span class="contact-link-label">Personal Email</span>
+              goyaladitya2413@gmail.com
+            </div>
+          </a>
+          <a href="mailto:2405028@kiit.ac.in" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <span class="contact-link-label">University Email</span>
+              2405028@kiit.ac.in
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/aditya-goyal-a960b0328/" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div>
+              <span class="contact-link-label">LinkedIn</span>
+              linkedin.com/in/aditya-goyal
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="john@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell me about your opportunity or collaboration idea..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          ✓ Message sent! Aditya will get back to you soon.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Aditya Goyal</div>
+  <div class="footer-copy">B.Tech 2024–2028 · KIIT University · Bhubaneswar</div>
+  <div class="footer-copy" style="font-size:11px;color:var(--text3)">Built with vision & code</div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mouseX=0,mouseY=0,ringX=0,ringY=0;
+document.addEventListener('mousemove',e=>{
+  mouseX=e.clientX;mouseY=e.clientY;
+  cursor.style.left=mouseX+'px';cursor.style.top=mouseY+'px';
+});
+function animateRing(){
+  ringX+=(mouseX-ringX)*0.12;
+  ringY+=(mouseY-ringY)*0.12;
+  ring.style.left=ringX+'px';ring.style.top=ringY+'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// Navbar scroll
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// Scroll reveal
+const revealEls=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+},{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+revealEls.forEach(el=>observer.observe(el));
+
+// Animated counters
+const counters=document.querySelectorAll('.stat-number');
+const counterObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const target=+e.target.getAttribute('data-target');
+      let current=0;
+      const step=target/40;
+      const timer=setInterval(()=>{
+        current+=step;
+        if(current>=target){current=target;clearInterval(timer);}
+        e.target.textContent=Math.floor(current);
+      },40);
+      counterObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+counters.forEach(c=>counterObserver.observe(c));
+
+// Skill bar animation
+const skillFills=document.querySelectorAll('.skill-fill');
+const skillObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const w=e.target.getAttribute('data-width');
+      setTimeout(()=>{e.target.style.width=w+'%';},200);
+      skillObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+skillFills.forEach(f=>skillObserver.observe(f));
+
+// Project tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.getAttribute('data-tab')).classList.add('active');
+  });
+});
+
+// Contact form
+function handleSubmit(e){
+  e.preventDefault();
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+}
+
+// Active nav links on scroll
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{
+    if(window.scrollY>=s.offsetTop-200) current=s.id;
+  });
+  navLinks.forEach(a=>{
+    a.style.color=a.getAttribute('href')==='#'+current?'var(--accent)':'';
+  });
+});
+</script>
+</body>
+</html>
